@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/cooksnap.iml" filepath="$PROJECT_DIR$/cooksnap.iml" />
       <module fileurl="file://$PROJECT_DIR$/unidy.iml" filepath="$PROJECT_DIR$/unidy.iml" />
     </modules>
   </component>

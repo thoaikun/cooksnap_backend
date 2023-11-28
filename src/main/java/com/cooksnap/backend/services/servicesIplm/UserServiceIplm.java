@@ -1,12 +1,14 @@
 package com.cooksnap.backend.services.servicesIplm;
 
-import com.cooksnap.backend.domains.dto.requests.UserInformationRequest;
+import com.cooksnap.backend.domains.dto.ErrorResponseDto;
+import com.cooksnap.backend.domains.dto.SuccessResponse;
 import com.cooksnap.backend.domains.dto.responses.UserInformationRespond;
 import com.cooksnap.backend.domains.entity.User;
 import com.cooksnap.backend.repositories.UserRepository;
 import com.cooksnap.backend.domains.dto.requests.ChangePasswordRequest;
 import com.cooksnap.backend.services.servicesInterface.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -20,20 +22,30 @@ public class UserServiceIplm implements UserService {
     private final PasswordEncoder passwordEncoder;
     private final UserRepository repository;
 
-    public UserInformationRespond getUserInformation(UserInformationRequest request){
-        User user = repository.findByUserId(request.getUserId());
+    public UserInformationRespond getUserInformation(Principal connectedUser){
+        var user_principal = (User) ((UsernamePasswordAuthenticationToken) connectedUser).getPrincipal();
+
+        User user = repository.findByUserId(user_principal.getUserId());
         UserInformationRespond information = new UserInformationRespond() ;
         information.setUserId(user.getUserId());
         information.setFullName(user.getFullName());
-        information.setAddress(user.getAddress());
-        information.setSex(user.getSex());
-        information.setPhone(user.getPhone());
         information.setDayOfBirth(user.getDayOfBirth());
-        information.setJob(user.getJob());
+        information.setHeight(user.getHeight());
+        information.setWeight(user.getWeight());
         information.setRole(user.getRole());
-        information.setWorkLocation(user.getWorkLocation());
         return information ;
     }
+
+    public ResponseEntity<?> newPassword(ChangePasswordRequest request, Principal connectedUser) {
+        var user = (User) ((UsernamePasswordAuthenticationToken) connectedUser).getPrincipal();
+        if (!request.getNewPassword().equals(request.getConfirmationPassword())) {
+            return ResponseEntity.badRequest().body(new ErrorResponseDto("Nhập lại khẩu mới không trùng khớp"));
+        }
+        user.setPassword(passwordEncoder.encode(request.getNewPassword()));
+        repository.save(user);
+        return ResponseEntity.ok().body(new SuccessResponse("Đổi mật khẩu mới thành công"));
+    }
+
     public void changePassword(ChangePasswordRequest request, Principal connectedUser) {
 
         var user = (User) ((UsernamePasswordAuthenticationToken) connectedUser).getPrincipal();

@@ -30,26 +30,17 @@ public class User implements UserDetails {
   @Column(name = "full_name")
   private String fullName;
 
-  @Column(name = "address")
-  private String address;
-
   @Column(name = "day_of_birth")
   private Date dayOfBirth;
 
-  @Column(name = "sex")
-  private String sex;
+  @Column(name = "height")
+  private float height;
 
-  @Column(name = "phone")
-  private String phone;
+  @Column(name = "weight")
+  private float weight;
 
   @Column(name = "email")
   private String email;
-
-  @Column(name = "job")
-  private String job;
-
-  @Column(name = "work_location")
-  private String workLocation;
 
   @Column(name = "password")
   private String password;

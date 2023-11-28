@@ -16,11 +16,8 @@ import java.util.Date;
 public class UserInformationRespond {
     private int userId;
     private String fullName;
-    private String address;
-    private String phone;
-    private String sex;
     private Date dayOfBirth;
-    private String job;
-    private String workLocation;
+    private float height;
+    private float weight;
     private Role role;
 }

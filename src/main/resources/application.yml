@@ -1,14 +1,10 @@
 spring:
   datasource:
-      url: jdbc:mysql://localhost:3306/unidy_database
+      url: jdbc:mysql://localhost:3306/cooksnap_database
       username: dev
       password: dev
       driver-class-name: com.mysql.cj.jdbc.Driver
-#  neo4j:
-#      uri: neo4j://localhost:7687
-#      authentication:
-#        username: neo4j
-#        password: unidyteam
+
   jpa:
     hibernate:
       ddl-auto: none

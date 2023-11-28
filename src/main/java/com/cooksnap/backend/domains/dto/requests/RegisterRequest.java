@@ -1,6 +1,8 @@
 package com.cooksnap.backend.domains.dto.requests;
 
 import com.unidy.backend.domains.role.Role;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.util.Date;
@@ -11,15 +13,12 @@ import java.util.Date;
 @NoArgsConstructor
 @Getter
 public class RegisterRequest {
-
+  @NotNull(message = "Họ và tên không được để trống")
   private String fullName;
   private String address;
   private Date dayOfBirth;
-  private String sex;
-  private String phone;
+  @Email(message = "Email không hợp lệ")
   private String email;
-  private String job;
-  private String workLocation;
   private String password;
   private Role role;
 }

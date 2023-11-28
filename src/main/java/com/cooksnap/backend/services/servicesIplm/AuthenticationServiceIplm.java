@@ -40,13 +40,10 @@ public class AuthenticationServiceIplm implements AuthenticationService {
       }
       var user = User.builder()
               .fullName(request.getFullName())
-              .address(request.getAddress())
               .dayOfBirth(request.getDayOfBirth())
-              .sex(request.getSex())
-              .phone(request.getPhone())
+              .weight(0)
+              .height(0)
               .email(request.getEmail())
-              .job(request.getJob())
-              .workLocation(request.getWorkLocation())
               .password(passwordEncoder.encode(request.getPassword()))
               .role(request.getRole())
               .build();

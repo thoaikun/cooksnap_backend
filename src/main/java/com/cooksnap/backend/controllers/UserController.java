@@ -1,11 +1,8 @@
 package com.cooksnap.backend.controllers;
 
-import com.cooksnap.backend.domains.dto.requests.ResetPasswordRequest;
-import com.cooksnap.backend.domains.dto.requests.UserInformationRequest;
-import com.cooksnap.backend.services.servicesInterface.ResetPassword;
-import com.cooksnap.backend.services.servicesInterface.UserService;
-import com.cooksnap.backend.services.servicesIplm.UserServiceIplm;
+
 import com.cooksnap.backend.domains.dto.requests.ChangePasswordRequest;
+import com.cooksnap.backend.services.servicesInterface.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,14 +16,17 @@ public class UserController {
 
     private final UserService userService;
 
-    @PostMapping("/get-user-information")
-    public ResponseEntity<?> getUserInformation(@RequestBody UserInformationRequest request){
-        try{
-            return ResponseEntity.ok().body(userService.getUserInformation(request));
-        }
-        catch (Exception e){
-            return ResponseEntity.badRequest().body("Lỗi hệ thống");
-        }
+    @GetMapping("/profile")
+    public ResponseEntity<?> getUserInformation(Principal connectedUser){
+        return ResponseEntity.ok().body(userService.getUserInformation(connectedUser));
+    }
+
+    @PatchMapping("/new-password")
+    public ResponseEntity<?> newPassword(
+            @RequestBody ChangePasswordRequest request,
+            Principal connectedUser
+    ) {
+        return userService.newPassword(request, connectedUser);
     }
 
     @PatchMapping("/change-password")
