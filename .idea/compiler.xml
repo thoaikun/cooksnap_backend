@@ -8,14 +8,17 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="unidy" />
+        <module name="cooksnap" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="security" target="17" />
+      <module name="unidy" target="17" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="cooksnap" options="-parameters" />
       <module name="security" options="-parameters" />
       <module name="unidy" options="-parameters" />
     </option>
