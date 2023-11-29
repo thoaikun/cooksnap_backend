@@ -1,3 +1,4 @@
+DROP DATABASE cooksnap_database;
 CREATE DATABASE IF NOT EXISTS cooksnap_database;
 USE cooksnap_database;
 
@@ -32,7 +33,7 @@ CREATE TABLE otp (
 );
 
 CREATE TABLE comment (
-    comment_id      INTEGER     PRIMARY KEY ,
+    comment_id      INTEGER     AUTO_INCREMENT  PRIMARY KEY ,
     text            VARCHAR(255),
     user_id         INTEGER,
     FOREIGN KEY (user_id) REFERENCES user(user_id)
@@ -40,14 +41,12 @@ CREATE TABLE comment (
 
 
 CREATE TABLE dish (
-    dish_id         INTEGER     PRIMARY KEY ,
-    name            VARCHAR(255)        ,
-    image_link      VARCHAR(255)        ,
-    about           VARCHAR(1027)
+    dish_id         INTEGER     AUTO_INCREMENT      PRIMARY KEY ,
+    about           VARCHAR(5011)
 );
 
 CREATE TABLE rating (
-    rate_id         INTEGER     PRIMARY KEY ,
+    rate_id         INTEGER     AUTO_INCREMENT      PRIMARY KEY ,
     rate_score      INTEGER     ,
     dish_id         INTEGER     ,
     user_id         INTEGER     ,
@@ -56,13 +55,14 @@ CREATE TABLE rating (
 );
 
 CREATE TABLE favorite_list (
-    id              INTEGER     PRIMARY KEY ,
+    id              INTEGER     AUTO_INCREMENT      PRIMARY KEY ,
+    list_name       VARCHAR(256) ,
     user_id         INTEGER         ,
     FOREIGN KEY (user_id)   REFERENCES user(user_id)
 );
 
 CREATE TABLE favorite_dish (
-    id              INTEGER     PRIMARY KEY ,
+    id              INTEGER     AUTO_INCREMENT      PRIMARY KEY ,
     dish_id         INTEGER ,
     favorite_list_id   INTEGER ,
     FOREIGN KEY (dish_id) REFERENCES dish(dish_id),
@@ -71,7 +71,7 @@ CREATE TABLE favorite_dish (
 
 
 CREATE TABLE date (
-    id          INTEGER     PRIMARY KEY ,
+    id          INTEGER     AUTO_INCREMENT      PRIMARY KEY ,
     type_date   VARCHAR(10),
     dish_id     INTEGER ,
     FOREIGN KEY (dish_id) REFERENCES dish(dish_id)
