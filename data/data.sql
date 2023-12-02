@@ -32,26 +32,30 @@ CREATE TABLE otp (
                      FOREIGN KEY (user_id) REFERENCES user(user_id)
 );
 
-CREATE TABLE comment (
-    comment_id      INTEGER     AUTO_INCREMENT  PRIMARY KEY ,
-    text            VARCHAR(255),
-    user_id         INTEGER,
-    FOREIGN KEY (user_id) REFERENCES user(user_id)
-);
-
 
 CREATE TABLE dish (
     dish_id         INTEGER     AUTO_INCREMENT      PRIMARY KEY ,
     about           VARCHAR(5011)
 );
 
+CREATE TABLE comment (
+    comment_id      INTEGER       PRIMARY KEY ,
+    text            VARCHAR(255),
+    user_id         INTEGER,
+    dish_id         INTEGER,
+    FOREIGN KEY (user_id) REFERENCES user(user_id),
+    FOREIGN KEY (dish_id) REFERENCES dish(dish_id)
+);
+
+
+
 CREATE TABLE rating (
-    rate_id         INTEGER     AUTO_INCREMENT      PRIMARY KEY ,
     rate_score      INTEGER     ,
     dish_id         INTEGER     ,
     user_id         INTEGER     ,
     FOREIGN KEY (dish_id) REFERENCES dish(dish_id),
-    FOREIGN KEY (user_id) REFERENCES user(user_id)
+    FOREIGN KEY (user_id) REFERENCES user(user_id),
+    PRIMARY KEY (user_id, dish_id)
 );
 
 CREATE TABLE favorite_list (

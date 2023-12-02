@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -60,13 +61,19 @@ public class DishServiceImpl implements DishService {
 
     public ResponseEntity<?> addDishToFavoriteList(AddDishRequest request, Principal connectedUser){
         try {
-            Dish dish =  dishRepository.findByAbout(request.getAboutDish());
-            if (dish == null){
+            Optional<Dish> dishOptional =  dishRepository.findByAbout(request.getAboutDish());
+            Dish dish;
+
+            if (dishOptional.isEmpty()){
                 Dish newDish = new Dish();
                 newDish.setAbout(request.getAboutDish());
-                dishRepository.save(newDish);
-                dish = dishRepository.findByAbout(request.getAboutDish());
+                dishRepository.saveAndFlush(newDish);
+                dishOptional = dishRepository.findByAbout(request.getAboutDish());
+                dish = dishOptional.orElse(newDish);
             }
+            else
+                dish = dishOptional.get();
+
 
 
             FavoriteDish favoriteDish = new FavoriteDish();

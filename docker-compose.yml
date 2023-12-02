@@ -2,14 +2,14 @@ services:
   db:
     image: 'mysql:latest'
     volumes:
-      - ./data:/docker-entrypoint-initrd.d/:ro
+      - ./data:/docker-entrypoint-initdb.d/:ro
     environment:
-      - 'MYSQL_DATABASE=cooksnap_database'
-      - 'MYSQL_PASSWORD=dev'
-      - 'MYSQL_ROOT_PASSWORD=dev'
-      - 'MYSQL_USER=dev'
+      - MYSQL_DATABASE=cooksnap_database
+      - MYSQL_PASSWORD=dev
+      - MYSQL_ROOT_PASSWORD=dev
+      - MYSQL_USER=dev
     ports:
-      - '3306:3306'
+      - 3306:3306
     restart: unless-stopped
 
 
