@@ -27,7 +27,7 @@ public class CommentController {
 
     @Operation(summary = "Post a user's commment about a dish")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Post comment succesfully",
+            @ApiResponse(responseCode = "200", description = "Post comment succesfully",
                     content = { @Content(mediaType = "application/json") }
             ),
             @ApiResponse(responseCode = "400", description = "Bad request",

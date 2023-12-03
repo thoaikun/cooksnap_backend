@@ -32,7 +32,7 @@ public class AuthenticationServiceIplm implements AuthenticationService {
   private final JwtService jwtService;
   private final AuthenticationManager authenticationManager;
 
-  public ResponseEntity<?> register(RegisterRequest request) {
+  public ResponseEntity<String> register(RegisterRequest request) {
     try {
       var findUser = repository.findByEmail(request.getEmail());
       if (findUser.isPresent()) {
