@@ -1,7 +1,7 @@
 package com.cooksnap.backend.domains.dto.responses;
 
 
-import com.unidy.backend.domains.role.Role;
+import com.cooksnap.backend.domains.role.Role;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

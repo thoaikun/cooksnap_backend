@@ -1,4 +1,4 @@
-package com.unidy.backend.domains.role;
+package com.cooksnap.backend.domains.role;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public enum Role {
 
-  VOLUNTEER(Collections.emptySet()),
+  USER(Collections.emptySet()),
   ADMIN(
           Set.of(
                   Permission.ADMIN_READ,

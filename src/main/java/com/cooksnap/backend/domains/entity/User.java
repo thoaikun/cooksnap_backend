@@ -1,11 +1,10 @@
 package com.cooksnap.backend.domains.entity;
 
-import com.unidy.backend.domains.role.Role;
+import com.cooksnap.backend.domains.role.Role;
 import jakarta.persistence.*;
 
 import java.util.Collection;
 import java.util.Date;
-import java.util.List;
 
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;

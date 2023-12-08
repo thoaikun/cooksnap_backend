@@ -5,6 +5,7 @@ import com.cooksnap.backend.config.JwtService;
 import com.cooksnap.backend.domains.dto.requests.AuthenticationRequest;
 import com.cooksnap.backend.domains.dto.responses.AuthenticationResponse;
 import com.cooksnap.backend.domains.entity.Token;
+import com.cooksnap.backend.domains.role.Role;
 import com.cooksnap.backend.repositories.TokenRepository;
 import com.cooksnap.backend.domains.TokenType;
 import com.cooksnap.backend.domains.entity.User;
@@ -39,13 +40,13 @@ public class AuthenticationServiceIplm implements AuthenticationService {
         return ResponseEntity.badRequest().body("Invalid Email");
       }
       var user = User.builder()
-              .fullName(request.getFullName())
-              .dayOfBirth(request.getDayOfBirth())
+              .fullName(null)
+              .dayOfBirth(null)
               .weight(0)
               .height(0)
               .email(request.getEmail())
               .password(passwordEncoder.encode(request.getPassword()))
-              .role(request.getRole())
+              .role(Role.USER)
               .build();
       var savedUser = repository.save(user);
       var jwtToken = jwtService.generateToken(user);

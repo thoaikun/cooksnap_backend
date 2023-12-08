@@ -10,6 +10,7 @@ import com.cooksnap.backend.domains.dto.requests.ResetPasswordRequest;
 import com.cooksnap.backend.domains.dto.responses.AuthenticationResponse;
 import com.cooksnap.backend.domains.entity.Otp;
 import com.cooksnap.backend.domains.entity.Token;
+import com.cooksnap.backend.domains.entity.User;
 import com.cooksnap.backend.repositories.OtpRepository;
 import com.cooksnap.backend.repositories.TokenRepository;
 import com.cooksnap.backend.repositories.UserRepository;
@@ -17,8 +18,10 @@ import com.cooksnap.backend.services.servicesInterface.EmailService;
 import com.cooksnap.backend.services.servicesInterface.ResetPassword;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.security.SecureRandom;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -32,41 +35,52 @@ public class ResetPasswordImpl implements ResetPassword {
     private final JwtService jwtService;
     private final TokenRepository tokenRepository;
 
+    private static final String UPPER = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    private static final String LOWER = "abcdefghijklmnopqrstuvwxyz";
+    private static final String DIGITS = "0123456789";
+    private static final String SPECIAL_CHARS = "!@#$%^&*()_+-=[]{}|;:,.<>?";
+    private final PasswordEncoder passwordEncoder;
+
     public ResponseEntity<?> sendOTP(ResetPasswordRequest request) {
         try {
             var user = userRepository.findByEmail(request.getEmail()).orElseThrow();
-            if (otpRepository.findByUserId(user.getUserId()).isPresent()) {
-                otpRepository.deleteByUserId(user.getUserId());
-            }
-
-            String otpCode = generateOTP();
-            Otp newOtp = Otp
-                    .builder()
-                    .otpCode(otpCode)
-                    .otpExpired(false)
-                    .userId(user.getUserId())
-                    .build();
-            otpRepository.save(newOtp);
+            String newPassword = generateRandomPassword(6);
+            user.setPassword(passwordEncoder.encode(newPassword));
             EmailDetails email = EmailDetails
                     .builder()
                     .recipient(user.getEmail())
-                    .msgBody("Your OTP Code :" + otpCode + "\n" + "OTP will be expired in 60 second")
-                    .subject("Reset Password OTP")
+                    .msgBody("Your new password :" + newPassword + "\n")
+                    .subject("Reset Password")
                     .build();
             emailService.sendTextMail(email);
-
-            Timer timer = new Timer();
-            timer.schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    otpRepository.deleteByOtpCode(otpCode);
-                    timer.cancel();
-                }
-            }, 60000);
-            return ResponseEntity.ok().body(otpCode);
+            userRepository.save(user);
+            return ResponseEntity.ok().body(newPassword);
         } catch (Exception e){
             return ResponseEntity.badRequest().body(new ErrorResponseDto("Email không tồn tại"));
         }
+    }
+
+    private static String generateRandomPassword(int length) {
+        SecureRandom random = new SecureRandom();
+        StringBuilder stringBuilder = new StringBuilder();
+
+        String allChars = UPPER + LOWER + DIGITS + SPECIAL_CHARS;
+        String upperCase = ".*[A-Z].*";
+        String lowerCase = ".*[a-z].*";
+        String digit = ".*\\d.*";
+        String special = ".*[!@#$%^&*()_+\\-=\\[\\]{}|;:,.<>?].*";
+
+        String regex = "(?=.*" + upperCase + ")(?=.*" + lowerCase + ")(?=.*" + digit + ")(?=.*" + special + ").{" + length + "}";
+
+        do {
+            stringBuilder.setLength(0);
+            for (int i = 0; i < length; i++) {
+                int index = random.nextInt(allChars.length());
+                stringBuilder.append(allChars.charAt(index));
+            }
+        } while (!stringBuilder.toString().matches(regex));
+
+        return stringBuilder.toString();
     }
 
     public ResponseEntity<?> submitOTP (OTPRequest OTP){

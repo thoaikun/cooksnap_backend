@@ -1,4 +1,4 @@
-package com.unidy.backend.domains.role;
+package com.cooksnap.backend.domains.role;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

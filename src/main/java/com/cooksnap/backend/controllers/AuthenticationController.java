@@ -56,7 +56,7 @@ public class AuthenticationController {
     service.refreshToken(request, response);
   }
 
-  @PostMapping("/send-OTP")
+  @PostMapping("/send-new-password")
   public ResponseEntity<?> sendOTPResetPassword (@RequestBody ResetPasswordRequest request) {
     return resetPassword.sendOTP(request);
   }
