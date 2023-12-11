@@ -11,6 +11,17 @@ services:
     ports:
       - 3306:3306
     restart: unless-stopped
+  main-server:
+    build: ./
+    ports:
+      - 8080:8080
+    depends_on:
+      - db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/cooksnap_database
+      SPRING_DATASOURCE_USERNAME: dev
+      SPRING_DATASOURCE_PASSWORD: dev
+    
 
 
 

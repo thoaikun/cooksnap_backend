@@ -33,6 +33,7 @@ public class UserServiceIplm implements UserService {
         information.setHeight(user.getHeight());
         information.setWeight(user.getWeight());
         information.setRole(user.getRole());
+        information.setEmail(user.getEmail());
         return information ;
     }
 

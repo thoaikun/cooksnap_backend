@@ -20,4 +20,5 @@ public class UserInformationRespond {
     private float height;
     private float weight;
     private Role role;
+    private String email;
 }
