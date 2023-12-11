@@ -16,11 +16,9 @@ dist/
 # Log files
 *.log
 
-# Package files
-*.jar
-
 # Maven
 dist/
+target
 
 # JetBrains IDE
 .idea/
