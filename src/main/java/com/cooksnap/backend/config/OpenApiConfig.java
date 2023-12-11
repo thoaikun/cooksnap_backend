@@ -28,10 +28,6 @@ import io.swagger.v3.oas.annotations.servers.Server;
         ),
         servers = {
                 @Server(
-                        description = "Local ENV",
-                        url = "http://localhost:8080"
-                ),
-                @Server(
                         description = "PROD ENV",
                         url = "https://cooksnapbackend-production.up.railway.app"
                 )
