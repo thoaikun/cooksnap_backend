@@ -7,6 +7,6 @@ import lombok.Setter;
 @Setter
 public class AddDishRequest {
     private int listId;
-    private int dishId;
+    private String dishId;
     private String aboutDish;
 }

@@ -66,6 +66,7 @@ public class DishServiceImpl implements DishService {
 
             if (dishOptional.isEmpty()){
                 Dish newDish = new Dish();
+                newDish.setDish_id(request.getDishId());
                 newDish.setAbout(request.getAboutDish());
                 dishRepository.saveAndFlush(newDish);
                 dishOptional = dishRepository.findByAbout(request.getAboutDish());

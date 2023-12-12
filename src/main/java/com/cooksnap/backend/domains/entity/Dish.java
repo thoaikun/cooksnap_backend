@@ -14,10 +14,8 @@ import lombok.*;
 public class Dish {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-
     @Column(name = "dish_id")
-    private Integer dish_id;
+    private String dish_id;
 
     @Column(name = "about")
     private String about;

@@ -7,5 +7,5 @@ import java.io.Serializable;
 @Data
 public class RatingKey implements Serializable {
     private Integer userId;
-    private Integer dishId;
+    private String dishId;
 }

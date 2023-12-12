@@ -18,7 +18,7 @@ public class FavoriteDish {
     private Integer id;
 
     @Column(name = "dish_id")
-    private Integer dishId;
+    private String dishId;
 
     @Column(name = "favorite_list_id")
     private Integer favoriteListId;

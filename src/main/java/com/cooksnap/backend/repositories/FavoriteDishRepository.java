@@ -7,7 +7,7 @@ import org.springframework.data.repository.query.Param;
 
 @Transactional
 public interface FavoriteDishRepository extends JpaRepository<FavoriteDish, Integer> {
-    void deleteByDishIdAndFavoriteListId(@Param("dishId") int dishId, @Param("favoriteListId") int favoriteListId);
+    void deleteByDishIdAndFavoriteListId(@Param("dishId") String dishId, @Param("favoriteListId") int favoriteListId);
 
     void deleteByFavoriteListId(int listID);
 }

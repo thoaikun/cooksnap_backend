@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Transactional
-public interface DishRepository extends JpaRepository<Dish, Integer> {
+public interface DishRepository extends JpaRepository<Dish, String> {
     @Query(value = "SELECT dish.dish_id, dish.about FROM dish INNER JOIN favorite_dish ON dish.dish_id = favorite_dish.dish_id where favorite_dish.favorite_list_id = :listId", nativeQuery = true)
     List<Dish> getFavoriteDish(@Param("listId") int listId);
 

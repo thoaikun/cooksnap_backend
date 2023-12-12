@@ -34,7 +34,7 @@ CREATE TABLE otp (
 
 
 CREATE TABLE dish (
-    dish_id         INTEGER     AUTO_INCREMENT      PRIMARY KEY ,
+    dish_id         VARCHAR(255)   PRIMARY KEY ,
     about           VARCHAR(5011)
 );
 
@@ -67,7 +67,7 @@ CREATE TABLE favorite_list (
 
 CREATE TABLE favorite_dish (
     id              INTEGER     AUTO_INCREMENT      PRIMARY KEY ,
-    dish_id         INTEGER ,
+    dish_id         VARCHAR(255) ,
     favorite_list_id   INTEGER ,
     FOREIGN KEY (dish_id) REFERENCES dish(dish_id),
     FOREIGN KEY (favorite_list_id) REFERENCES favorite_list(id)

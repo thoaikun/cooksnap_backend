@@ -23,6 +23,6 @@ public class Rating {
 
     @Id
     @Column(name = "dish_id")
-    private Integer dishId;
+    private String dishId;
 
 }
