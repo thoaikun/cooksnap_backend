@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
@@ -121,5 +122,11 @@ public class DishController {
     @DeleteMapping("/dish/favorite-list")
     public ResponseEntity<?> deleteDishToFavoriteList(@RequestBody AddDishRequest request, Principal connectedUser){
         return dishService.deleteDishToFavoriteList(request,connectedUser);
+    }
+
+    @Operation(summary = "Check whether user has like this dish")
+    @GetMapping("is-in-your-favorite")
+    public ResponseEntity<?> isInYourFavorite(@RequestParam String dishId, Principal connectedUser) {
+        return dishService.isInYourFavorite(dishId, connectedUser);
     }
 }

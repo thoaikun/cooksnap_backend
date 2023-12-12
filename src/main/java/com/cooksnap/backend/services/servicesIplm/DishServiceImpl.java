@@ -3,6 +3,7 @@ package com.cooksnap.backend.services.servicesIplm;
 import com.cooksnap.backend.domains.dto.ErrorResponseDto;
 import com.cooksnap.backend.domains.dto.SuccessResponse;
 import com.cooksnap.backend.domains.dto.requests.AddDishRequest;
+import com.cooksnap.backend.domains.dto.responses.DishHasInFavoriteList;
 import com.cooksnap.backend.domains.entity.Dish;
 import com.cooksnap.backend.domains.entity.FavoriteDish;
 import com.cooksnap.backend.domains.entity.FavoriteList;
@@ -14,10 +15,12 @@ import com.cooksnap.backend.services.servicesInterface.DishService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -106,6 +109,21 @@ public class DishServiceImpl implements DishService {
             favoriteListRepository.deleteById(listId);
             return ResponseEntity.ok().body(new SuccessResponse("delete success"));
         } catch (Exception e){
+            return ResponseEntity.badRequest().body(new ErrorResponseDto("something error"));
+        }
+    }
+
+    @Override
+    public ResponseEntity<?> isInYourFavorite(String dishId, Principal connectedUser) {
+        try {
+            var user = (User) ((UsernamePasswordAuthenticationToken) connectedUser).getPrincipal();
+            List<Object> objects = favoriteDishRepository.getFavoriteDishWithUserId(dishId, user.getUserId());
+            if (objects.isEmpty())
+                return ResponseEntity.ok().body(new DishHasInFavoriteList(false));
+            else
+                return ResponseEntity.ok().body(new DishHasInFavoriteList(true));
+
+        } catch (Exception e) {
             return ResponseEntity.badRequest().body(new ErrorResponseDto("something error"));
         }
     }

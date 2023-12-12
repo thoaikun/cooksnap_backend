@@ -13,4 +13,6 @@ public interface DishService {
     ResponseEntity<?> deleteDishToFavoriteList(AddDishRequest request, Principal connectedUser);
 
     ResponseEntity<?> deleteFavorite(int listId);
+
+    ResponseEntity<?> isInYourFavorite(String dishId, Principal connectedUser);
 }
