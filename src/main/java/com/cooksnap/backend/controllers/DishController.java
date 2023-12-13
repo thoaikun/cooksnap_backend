@@ -5,6 +5,7 @@ import com.cooksnap.backend.domains.dto.requests.AddDishRequest;
 import com.cooksnap.backend.domains.entity.Dish;
 import com.cooksnap.backend.domains.entity.FavoriteList;
 import com.cooksnap.backend.services.servicesInterface.DishService;
+import com.miragesql.miragesql.annotation.In;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -105,7 +106,7 @@ public class DishController {
     }
     )
     @PostMapping("/dish/favorite-list")
-    public ResponseEntity<?> addDishToFavoriteList(@RequestBody AddDishRequest request, Principal connectedUser){
+        public ResponseEntity<?> addDishToFavoriteList(@RequestBody AddDishRequest request, Principal connectedUser){
         return dishService.addDishToFavoriteList(request,connectedUser);
     }
 
@@ -120,8 +121,8 @@ public class DishController {
     }
     )
     @DeleteMapping("/dish/favorite-list")
-    public ResponseEntity<?> deleteDishToFavoriteList(@RequestBody AddDishRequest request, Principal connectedUser){
-        return dishService.deleteDishToFavoriteList(request,connectedUser);
+    public ResponseEntity<?> deleteDishToFavoriteList(@RequestParam String dishId, @RequestParam Integer listId, Principal connectedUser){
+        return dishService.deleteDishToFavoriteList(listId, dishId ,connectedUser);
     }
 
     @Operation(summary = "Check whether user has like this dish")

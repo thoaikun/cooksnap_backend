@@ -3,11 +3,8 @@ package com.cooksnap.backend.services.servicesIplm;
 import com.cooksnap.backend.domains.dto.ErrorResponseDto;
 import com.cooksnap.backend.domains.dto.SuccessResponse;
 import com.cooksnap.backend.domains.dto.requests.AddDishRequest;
-import com.cooksnap.backend.domains.dto.responses.DishHasInFavoriteList;
-import com.cooksnap.backend.domains.entity.Dish;
-import com.cooksnap.backend.domains.entity.FavoriteDish;
-import com.cooksnap.backend.domains.entity.FavoriteList;
-import com.cooksnap.backend.domains.entity.User;
+import com.cooksnap.backend.domains.dto.responses.DishHasInFavoriteListResponse;
+import com.cooksnap.backend.domains.entity.*;
 import com.cooksnap.backend.repositories.DishRepository;
 import com.cooksnap.backend.repositories.FavoriteDishRepository;
 import com.cooksnap.backend.repositories.FavoriteListRepository;
@@ -15,12 +12,11 @@ import com.cooksnap.backend.services.servicesInterface.DishService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -93,9 +89,10 @@ public class DishServiceImpl implements DishService {
         }
     }
 
-    public ResponseEntity<?> deleteDishToFavoriteList(AddDishRequest request, Principal connectedUser){
+    public ResponseEntity<?> deleteDishToFavoriteList(Integer listId, String dishId, Principal connectedUser){
         try {
-            favoriteDishRepository.deleteByDishIdAndFavoriteListId(request.getDishId(), request.getListId());
+            dishRepository.deleteById(dishId);
+            favoriteDishRepository.deleteFavoriteDishByDishIdAndFavoriteListId(dishId, listId);
             return ResponseEntity.ok().body(new SuccessResponse("delete success"));
         } catch (Exception e){
             return ResponseEntity.badRequest().body(new ErrorResponseDto("something error"));
@@ -118,10 +115,17 @@ public class DishServiceImpl implements DishService {
         try {
             var user = (User) ((UsernamePasswordAuthenticationToken) connectedUser).getPrincipal();
             List<Object> objects = favoriteDishRepository.getFavoriteDishWithUserId(dishId, user.getUserId());
-            if (objects.isEmpty())
-                return ResponseEntity.ok().body(new DishHasInFavoriteList(false));
-            else
-                return ResponseEntity.ok().body(new DishHasInFavoriteList(true));
+            if (objects.isEmpty()) {
+                List<Object> favoriteListIds = new ArrayList<>();
+                return ResponseEntity.ok().body(new DishHasInFavoriteListResponse(false, favoriteListIds));
+            }
+            else {
+                List<Object> favoriteListIds = new ArrayList<>();
+                for (Integer i=0; i < objects.size(); i++) {
+                    favoriteListIds.add(objects.get(i));
+                }
+                return ResponseEntity.ok().body(new DishHasInFavoriteListResponse(true, favoriteListIds));
+            }
 
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(new ErrorResponseDto("something error"));

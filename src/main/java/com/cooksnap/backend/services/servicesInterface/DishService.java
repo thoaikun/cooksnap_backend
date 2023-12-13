@@ -10,7 +10,7 @@ public interface DishService {
     ResponseEntity<?> getFavoriteListByUserId(Principal connectedUser);
     ResponseEntity<?> getFavoriteDish(int listId);
     ResponseEntity<?> addDishToFavoriteList(AddDishRequest request, Principal connectedUser);
-    ResponseEntity<?> deleteDishToFavoriteList(AddDishRequest request, Principal connectedUser);
+    ResponseEntity<?> deleteDishToFavoriteList(Integer listId, String dishId, Principal connectedUser);
 
     ResponseEntity<?> deleteFavorite(int listId);
 

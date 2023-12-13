@@ -2,16 +2,22 @@ package com.cooksnap.backend.repositories;
 
 import com.cooksnap.backend.domains.entity.FavoriteDish;
 import jakarta.transaction.Transactional;
+import org.hibernate.annotations.SQLUpdate;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
-import java.util.Objects;
 
 @Transactional
 public interface FavoriteDishRepository extends JpaRepository<FavoriteDish, Integer> {
-    void deleteByDishIdAndFavoriteListId(@Param("dishId") String dishId, @Param("favoriteListId") int favoriteListId);
+    @Modifying
+    @Query(
+        value = "DELETE FROM cooksnap_database.favorite_dish WHERE listId = :favoriteListId AND dish_id = :dishId",
+        nativeQuery = true
+    )
+    void deleteFavoriteDishByDishIdAndFavoriteListId(@Param("dishId") String dishId, @Param("favoriteListId") int favoriteListId);
 
     void deleteByFavoriteListId(int listID);
 
