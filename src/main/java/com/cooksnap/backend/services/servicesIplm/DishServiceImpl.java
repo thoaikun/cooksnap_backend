@@ -91,7 +91,6 @@ public class DishServiceImpl implements DishService {
 
     public ResponseEntity<?> deleteDishToFavoriteList(Integer listId, String dishId, Principal connectedUser){
         try {
-            dishRepository.deleteById(dishId);
             favoriteDishRepository.deleteFavoriteDishByDishIdAndFavoriteListId(dishId, listId);
             return ResponseEntity.ok().body(new SuccessResponse("delete success"));
         } catch (Exception e){

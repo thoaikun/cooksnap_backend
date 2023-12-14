@@ -14,7 +14,7 @@ import java.util.List;
 public interface FavoriteDishRepository extends JpaRepository<FavoriteDish, Integer> {
     @Modifying
     @Query(
-        value = "DELETE FROM cooksnap_database.favorite_dish WHERE listId = :favoriteListId AND dish_id = :dishId",
+        value = "DELETE FROM favorite_dish WHERE favorite_list_id = :favoriteListId AND dish_id = :dishId",
         nativeQuery = true
     )
     void deleteFavoriteDishByDishIdAndFavoriteListId(@Param("dishId") String dishId, @Param("favoriteListId") int favoriteListId);
